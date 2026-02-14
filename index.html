@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine, Isha? 💕</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #ff6b9d 0%, #ffc3a0 50%, #ff8fab 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Floating hearts */
+.heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 15s linear infinite;
+    opacity: 0;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60px 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 600px;
+    z-index: 10;
+}
+
+h1 {
+    color: #ff1744;
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.message {
+    font-size: 1.3em;
+    margin: 30px 0;
+    line-height: 1.8;
+}
+
+.dancer-emoji {
+    font-size: 3em;
+    margin: 20px 0;
+    animation: dance 2s infinite;
+}
+
+@keyframes dance {
+    0%,100% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(-10deg) scale(1.1); }
+    75% { transform: rotate(10deg) scale(1.1); }
+}
+
+.question {
+    font-size: 2em;
+    color: #d81b60;
+    margin: 30px 0;
+    font-weight: bold;
+}
+
+.buttons {
+    margin-top: 40px;
+}
+
+button {
+    padding: 20px 50px;
+    font-size: 1.5em;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#yesBtn {
+    background: linear-gradient(135deg, #ff1744, #f50057);
+    color: white;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    background: linear-gradient(135deg, #e0e0e0, #bdbdbd);
+    color: #666;
+    position: fixed; /* important */
+    left: 50%;
+    top: 70%;
+}
+
+.response,
+.romantic-message,
+.celebration {
+    display: none;
+    margin-top: 30px;
+}
+
+.romantic-message {
+    padding: 30px;
+    background: linear-gradient(135deg, #fff0f5, #ffe4e1);
+    border-radius: 20px;
+    border: 2px solid #ff69b4;
+}
+
+@keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="heart-container" id="heartContainer"></div>
+
+<div class="container">
+    <h1>💕 For Isha 💕</h1>
+
+    <div class="dancer-emoji">💃✨</div>
+
+    <div class="message">
+        To the most beautiful dancer,<br>
+        whose grace and elegance captivate my heart...
+    </div>
+
+    <div class="question">
+        Will you be my Valentine? 🌹
+    </div>
+
+    <div class="buttons">
+        <button id="yesBtn">Yes! 💖</button>
+        <button id="noBtn">No</button>
+    </div>
+
+    <div class="response" id="response"></div>
+
+    <div class="romantic-message" id="romanticMessage">
+        🌹 You've made me the happiest person alive! 🌹<br><br>
+        💕 Just like your dancing moves my soul,
+        your presence lights up my world 💕
+    </div>
+
+    <div class="celebration" id="celebration">
+        🎉💕🎊💖🌹✨
+    </div>
+</div>
+
+<script>
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const response = document.getElementById('response');
+const romanticMessage = document.getElementById('romanticMessage');
+const celebration = document.getElementById('celebration');
+const heartContainer = document.getElementById('heartContainer');
+
+/* Floating hearts */
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerHTML = '❤️';
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDelay = Math.random() * 5 + 's';
+    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+    heartContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 15000);
+}
+setInterval(createHeart, 300);
+for (let i = 0; i < 15; i++) createHeart();
+
+/* ESCAPE ANYWHERE ON SCREEN */
+document.addEventListener('mousemove', function(e) {
+
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    const btnCenterX = btnRect.left + btnRect.width / 2;
+    const btnCenterY = btnRect.top + btnRect.height / 2;
+
+    const distance = Math.hypot(mouseX - btnCenterX, mouseY - btnCenterY);
+
+    if (distance < 150) {
+
+        const padding = 10;
+
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        const newX = Math.random() * maxX;
+        const newY = Math.random() * maxY;
+
+        noBtn.style.left = newX + "px";
+        noBtn.style.top = newY + "px";
+    }
+});
+
+/* YES button */
+yesBtn.addEventListener('click', function() {
+    yesBtn.style.display = 'none';
+    noBtn.style.display = 'none';
+
+    response.style.display = 'block';
+    response.innerHTML = 'Yay! I knew you would say yes! 💕';
+
+    setTimeout(() => {
+        romanticMessage.style.display = 'block';
+        celebration.style.display = 'block';
+        celebration.style.animation = 'pulse 1s infinite';
+    }, 1000);
+
+    for (let i = 0; i < 40; i++) {
+        setTimeout(createHeart, i * 50);
+    }
+});
+</script>
+
+</body>
+</html>
+
